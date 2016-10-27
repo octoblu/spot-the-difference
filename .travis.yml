@@ -1,3 +1,11 @@
 language: node_js
 node_js:
-  - '5'
+- '5'
+deploy:
+  provider: npm
+  email: serveradmin@octoblu.com
+  api_key:
+    secure: ZS0JZ+WRTJur77iw7vPS9Yh9cSDZPnyYlBirNqX+kD8C0TmHy0VxNRsi2QBpo15GgXugAfAMGzIXfI6g5j7X4ywLKcOX018+4kdeb/WKNDxNs8yufS0xoGTeCbXSyuPe3pGMK4hDx3hxgRlmObGSRzj3mpc5302bGmJVc43GZlOTnkVDpQ2UyxLHdPvepTE+4qmwOyi2/KVv4Li1whIcYl2N0xARFEyIVFQK3WxaQUqUZ1oMCbyVI/MwYDTnMXDvKYOr28xSi+31BqVKxkLBzV5MUunnVdNpiSYg4Q0cT1XCEUxJv1LBt139/o/QAWWhiEsYV2Y61EP+q1TB8sDe+g3M9WnRgBxOPyz25o/cw4oCRQUH632Dlve0Hzqj4NbPwS7nXaF8NzVGbT1mmpEVizWkR2Y224E/GE66Ok1CVfG3uRF+rvyDQ+kdhlyOE4PC3MJyUGktuJBpyJSX3OJE+vVQ9K4AhlhaHySdX4Qbcqw1t8+bHqDK+b5feXv49cSDRoixdaHUZbYwJmIG9JbmEb+GtKQGbyveAQSlPsnlCcPy5tgcXVNNSXYWPNnykg5g2Crw7kvHOqXvXU2EYGkRztMOfWux7be+oOeI82rxAfp7AqjIG81kb2UZl1fhtWf/FkJO23t0rDi6cZVjFh8+QQKMivrVT/TqWOmKP4bvl6M=
+  on:
+    tags: true
+    repo: octoblu/spot-the-difference
