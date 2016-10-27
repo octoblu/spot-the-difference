@@ -6,6 +6,8 @@
 
 [![NPM](https://nodei.co/npm/spot-the-difference.svg?style=flat)](https://npmjs.org/package/spot-the-difference)
 
+Iterates over the items in an array, printing the difference at each step.
+
 ## Installing
 
 ```bash
@@ -15,14 +17,21 @@ $ npm install -g spot-the-difference
 ### Usage
 
 ```
-usage: spot-the-difference [OPTIONS] <json-array>
-
-about:
-  iterates over the array, printing the difference at each step
+usage: spot-the-difference [OPTIONS] <path/to/json-array.json>
 
 options:
     -h, --help      Print this help and exit.
     -v, --version   Print the version and exit.
+```
+
+### Examples
+
+```shell
+# Reading from a file
+spot-the-difference /path/to/json-array.json
+
+# Reading from stdin
+echo '[{"foo": "bar"}, {"foo": "Bar"}]' | spot-the-difference
 ```
 
 ## License

@@ -1,7 +1,8 @@
-colors   = require 'colors/safe'
-dashdash = require 'dashdash'
-_        = require 'lodash'
-{diffString}   = require 'json-diff'
+colors       = require 'colors/safe'
+dashdash     = require 'dashdash'
+fs           = require 'fs'
+_            = require 'lodash'
+{diffString} = require 'json-diff'
 
 packageJSON = require './package.json'
 
@@ -18,9 +19,8 @@ OPTIONS = [{
 class Command
   constructor: ->
     process.on 'uncaughtException', @die
-    {@items} = @parseOptions()
 
-  parseOptions: =>
+  parseOptions: (callback) =>
     parser = dashdash.createParser({options: OPTIONS})
     options = parser.parse(process.argv)
 
@@ -34,31 +34,26 @@ class Command
 
     firstArg = _.first options._args
     if _.isEmpty firstArg
-      console.error @usage parser.help({includeEnv: true})
-      console.error colors.red 'Missing required parameter: <json-array>'
-      process.exit 1
-
-    try
-      items = JSON.parse firstArg
-    catch e
-      console.error @usage parser.help({includeEnv: true})
-      console.error colors.red "<json-array> contained invalid JSON: \"#{e.message}\""
-      process.exit 1
-
-    unless _.isArray items
-      console.error @usage parser.help({includeEnv: true})
-      console.error colors.red "<json-array> must be an array"
-      process.exit 1
-
-    return {items}
+      @readItemsFromStdIn (error, items) =>
+        @printUsageAndErrorAndDie parser.help({includeEnv: true}), error if error?
+        return callback null, {items}
+    else
+      @readItemsFromFile firstArg, (error, items) =>
+        @printUsageAndErrorAndDie parser.help({includeEnv: true}), error if error?
+        return callback null, {items}
 
   run: =>
-    _.each @items, (item, i) =>
-      nextItem = @items[i + 1]
-      return unless nextItem
-      console.log diffString item, nextItem
+    @parseOptions (error, options) =>
+      return @die error if error?
 
-    process.exit 0
+      {items} = options
+
+      _.each items, (item, i) =>
+        nextItem = items[i + 1]
+        return unless nextItem
+        console.log diffString item, nextItem
+
+      process.exit 0
 
   die: (error) =>
     return process.exit(0) unless error?
@@ -66,12 +61,42 @@ class Command
     console.error error.stack
     process.exit 1
 
+  parseItems: (itemsStr, callback) =>
+    try
+      items = JSON.parse itemsStr
+    catch e
+      return callback new Error "Invalid JSON: \"#{e.message}\""
+
+    unless _.isArray items
+      return callback new Error "JSON must be an array"
+
+    return callback null, items
+
+
+  printUsageAndErrorAndDie: (optionsStr, error) =>
+    console.error @usage optionsStr
+    console.error colors.red error.message
+    process.exit 1
+
+  readItemsFromFile: (filename, callback) =>
+    fs.readFile filename, 'utf8', (error, itemsStr) =>
+      return callback error if error?
+      @parseItems itemsStr, callback
+
+  readItemsFromStdIn: (callback) =>
+    callback = _.once callback
+
+    return callback null, '' if process.stdin.isTTY
+
+    data = ''
+    process.stdin.setEncoding('utf8')
+    process.stdin.on 'readable', => data += chunk while chunk = process.stdin.read()
+    process.stdin.on 'error', (error) => callback error
+    process.stdin.on 'end', => @parseItems data, callback
+
   usage: (optionsStr) =>
     """
-      usage: spot-the-difference [OPTIONS] <json-array>
-
-      about:
-        iterates over the array, printing the difference at each step
+      usage: spot-the-difference [OPTIONS] <path/to/json-array.json>
 
       options:
       #{optionsStr}
