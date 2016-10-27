@@ -48,10 +48,14 @@ class Command
 
       {items} = options
 
-      _.each items, (item, i) =>
+      outputStrings = _.map items, (item, i) =>
         nextItem = items[i + 1]
         return unless nextItem
-        console.log diffString item, nextItem
+        str = diffString item, nextItem
+        return ' no difference \n' if str == ' undefined\n'
+        return str
+
+      console.log _.join(_.compact(outputStrings), "\n========================================================\n\n")
 
       process.exit 0
 
