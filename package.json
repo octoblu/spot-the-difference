@@ -1,6 +1,6 @@
 {
   "name": "spot-the-difference",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Put some description here",
   "keywords": [
     "cool",
@@ -28,7 +28,8 @@
     "coffee-script": "^1.10.0",
     "colors": "^1.1.2",
     "dashdash": "^1.14.0",
-    "json-diff": "^0.3.1"
+    "json-diff": "^0.3.1",
+    "lodash": "^4.16.4"
   },
   "devDependencies": {},
   "peerDependencies": {},
