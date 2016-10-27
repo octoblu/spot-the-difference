@@ -9,3 +9,6 @@ deploy:
   on:
     tags: true
     repo: octoblu/spot-the-difference
+branches:
+  only:
+    - '/^v[0-9]/'
