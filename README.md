@@ -1,21 +1,28 @@
-# generator-octoblu-cli
+# spot-the-difference
 
-[![Dependency status](http://img.shields.io/david/octoblu/generator-octoblu-cli.svg?style=flat)](https://david-dm.org/octoblu/generator-octoblu-cli)
-[![devDependency Status](http://img.shields.io/david/dev/octoblu/generator-octoblu-cli.svg?style=flat)](https://david-dm.org/octoblu/generator-octoblu-cli#info=devDependencies)
-[![Build Status](http://img.shields.io/travis/octoblu/generator-octoblu-cli.svg?style=flat&branch=master)](https://travis-ci.org/octoblu/generator-octoblu-cli)
+[![Dependency status](http://img.shields.io/david/octoblu/spot-the-difference.svg?style=flat)](https://david-dm.org/octoblu/spot-the-difference)
+[![devDependency Status](http://img.shields.io/david/dev/octoblu/spot-the-difference.svg?style=flat)](https://david-dm.org/octoblu/spot-the-difference#info=devDependencies)
+[![Build Status](http://img.shields.io/travis/octoblu/spot-the-difference.svg?style=flat&branch=master)](https://travis-ci.org/octoblu/spot-the-difference)
 
-[![NPM](https://nodei.co/npm/generator-octoblu-cli.svg?style=flat)](https://npmjs.org/package/generator-octoblu-cli)
+[![NPM](https://nodei.co/npm/spot-the-difference.svg?style=flat)](https://npmjs.org/package/spot-the-difference)
 
 ## Installing
 
 ```bash
-$ npm install generator-octoblu-cli
+$ npm install -g spot-the-difference
 ```
 
 ### Usage
 
-```javascript
-console.log('hello world!');
+```
+usage: spot-the-difference [OPTIONS] <json-array>
+
+about:
+  iterates over the array, printing the difference at each step
+
+options:
+    -h, --help      Print this help and exit.
+    -v, --version   Print the version and exit.
 ```
 
 ## License
